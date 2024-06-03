@@ -1,3 +1,3 @@
-import { saludar } from './components/saludar/saludar.js';
+import { saludar } from './components/saludar/saludar';
 import "./styles.css"
-saludar('Richard');
+saludar('Catalina Sofia');

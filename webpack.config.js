@@ -1,15 +1,24 @@
 const HtmlWebpack = require('html-webpack-plugin');
 const MiniCssExtract = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: './src/index.ts',
   output: {
     clean: true
   },
+  resolve: {
+    extensions: ['.ts', '.js']
+  },
   module: {
     rules: [
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node-modules/,
+      },
       {
         test: /\.html$/,
         loader: 'html-loader',
@@ -27,7 +36,7 @@ module.exports = {
         use: [MiniCssExtract.loader, 'css-loader']
       },
       {
-        test:/\.(png|jpe?g|gif)$/,
+        test: /\.(png|jpe?g|gif)$/,
         loader: 'file-loader'
       }
     ]
@@ -41,7 +50,12 @@ module.exports = {
       ignoreOrder: false
     }),
     new CopyPlugin({
-      patterns: [{from: 'src/assets/', to:'assets/'}]
+      patterns: [{ from: 'src/assets/', to: 'assets/' }]
     })
-  ]
+  ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist')
+    }
+  }
 }
